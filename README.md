@@ -20,6 +20,4 @@ And these resources:
 
 It creates a window with a header and a button. When you click the button, the label changes. Click it again and it changes back. Standard setter/getter stuff.
 
-![before click](screenshots/app-before-click.png)
-
-![after click](screenshots/app-after-click.png)
+![before click](screenshots/app-before-click.png) ![after click](screenshots/app-after-click.png)
