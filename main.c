@@ -32,6 +32,7 @@ typedef struct _AhmMainWindowClass AhmMainWindowClass;
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 typedef struct _AhmHeaderPrivate AhmHeaderPrivate;
 typedef struct _AhmMainWindowPrivate AhmMainWindowPrivate;
+#define _g_free0(var) (var = (g_free (var), NULL))
 
 struct _AhmHeader {
 	GtkHeaderBar parent_instance;
@@ -51,6 +52,11 @@ struct _AhmMainWindowClass {
 	GtkWindowClass parent_class;
 };
 
+struct _AhmMainWindowPrivate {
+	gchar* btnLabel;
+	gchar* newLabel;
+};
+
 
 static gpointer ahm_header_parent_class = NULL;
 static gpointer ahm_main_window_parent_class = NULL;
@@ -59,40 +65,38 @@ gint _vala_main (gchar** args, int args_length1);
 GType ahm_header_get_type (void) G_GNUC_CONST;
 AhmHeader* ahm_header_new (const gchar* title, const gchar* subtitle);
 AhmHeader* ahm_header_construct (GType object_type, const gchar* title, const gchar* subtitle);
-AhmMainWindow* ahm_main_window_new (GtkHeaderBar* header, GtkButton* btn);
-AhmMainWindow* ahm_main_window_construct (GType object_type, GtkHeaderBar* header, GtkButton* btn);
+AhmMainWindow* ahm_main_window_new (GtkHeaderBar* header);
+AhmMainWindow* ahm_main_window_construct (GType object_type, GtkHeaderBar* header);
 GType ahm_main_window_get_type (void) G_GNUC_CONST;
 enum  {
 	AHM_HEADER_DUMMY_PROPERTY
 };
+#define AHM_MAIN_WINDOW_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), AHM_TYPE_MAIN_WINDOW, AhmMainWindowPrivate))
 enum  {
 	AHM_MAIN_WINDOW_DUMMY_PROPERTY
 };
 static void _gtk_main_quit_gtk_widget_destroy (GtkWidget* _sender, gpointer self);
+static void ahm_main_window_changeLabel (AhmMainWindow* self, GtkButton* btn);
+static void _ahm_main_window_changeLabel_gtk_button_clicked (GtkButton* _sender, gpointer self);
+static void ahm_main_window_finalize (GObject* obj);
 
 
 gint _vala_main (gchar** args, int args_length1) {
 	gint result = 0;
 	AhmHeader* header = NULL;
 	AhmHeader* _tmp0_ = NULL;
-	GtkButton* button = NULL;
-	GtkButton* _tmp1_ = NULL;
+	AhmMainWindow* _tmp1_ = NULL;
 	AhmMainWindow* _tmp2_ = NULL;
-	AhmMainWindow* _tmp3_ = NULL;
 	gtk_init (&args_length1, &args);
 	_tmp0_ = ahm_header_new ("My App", "Made with Vala");
 	g_object_ref_sink (_tmp0_);
 	header = _tmp0_;
-	_tmp1_ = (GtkButton*) gtk_button_new_with_label ("Hello Elementary!");
+	_tmp1_ = ahm_main_window_new ((GtkHeaderBar*) header);
 	g_object_ref_sink (_tmp1_);
-	button = _tmp1_;
-	_tmp2_ = ahm_main_window_new ((GtkHeaderBar*) header, button);
-	g_object_ref_sink (_tmp2_);
-	_tmp3_ = _tmp2_;
-	_g_object_unref0 (_tmp3_);
+	_tmp2_ = _tmp1_;
+	_g_object_unref0 (_tmp2_);
 	gtk_main ();
 	result = 0;
-	_g_object_unref0 (button);
 	_g_object_unref0 (header);
 	return result;
 }
@@ -158,43 +162,102 @@ GType ahm_header_get_type (void) {
          * MainWindow Constructor
          *
          * @param header The title to use for the header
-         * @param btn The subtitle to use for the header
          */
 static void _gtk_main_quit_gtk_widget_destroy (GtkWidget* _sender, gpointer self) {
 	gtk_main_quit ();
 }
 
 
-AhmMainWindow* ahm_main_window_construct (GType object_type, GtkHeaderBar* header, GtkButton* btn) {
+static void _ahm_main_window_changeLabel_gtk_button_clicked (GtkButton* _sender, gpointer self) {
+	ahm_main_window_changeLabel ((AhmMainWindow*) self, _sender);
+}
+
+
+AhmMainWindow* ahm_main_window_construct (GType object_type, GtkHeaderBar* header) {
 	AhmMainWindow * self = NULL;
 	GtkHeaderBar* _tmp0_ = NULL;
+	GtkButton* button = NULL;
 	GtkButton* _tmp1_ = NULL;
 	g_return_val_if_fail (header != NULL, NULL);
-	g_return_val_if_fail (btn != NULL, NULL);
 	self = (AhmMainWindow*) g_object_new (object_type, NULL);
 	_tmp0_ = header;
 	gtk_window_set_titlebar ((GtkWindow*) self, (GtkWidget*) _tmp0_);
 	g_signal_connect ((GtkWidget*) self, "destroy", (GCallback) _gtk_main_quit_gtk_widget_destroy, NULL);
 	gtk_window_set_default_size ((GtkWindow*) self, 350, 70);
 	gtk_container_set_border_width ((GtkContainer*) self, (guint) 10);
-	_tmp1_ = btn;
-	gtk_container_add ((GtkContainer*) self, (GtkWidget*) _tmp1_);
+	_tmp1_ = (GtkButton*) gtk_button_new_with_label ("Hello Elementary!");
+	g_object_ref_sink (_tmp1_);
+	button = _tmp1_;
+	g_signal_connect_object (button, "clicked", (GCallback) _ahm_main_window_changeLabel_gtk_button_clicked, self, 0);
+	gtk_container_add ((GtkContainer*) self, (GtkWidget*) button);
 	gtk_widget_show_all ((GtkWidget*) self);
+	_g_object_unref0 (button);
 	return self;
 }
 
 
-AhmMainWindow* ahm_main_window_new (GtkHeaderBar* header, GtkButton* btn) {
-	return ahm_main_window_construct (AHM_TYPE_MAIN_WINDOW, header, btn);
+AhmMainWindow* ahm_main_window_new (GtkHeaderBar* header) {
+	return ahm_main_window_construct (AHM_TYPE_MAIN_WINDOW, header);
+}
+
+
+static void ahm_main_window_changeLabel (AhmMainWindow* self, GtkButton* btn) {
+	const gchar* _tmp0_ = NULL;
+	GtkButton* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (btn != NULL);
+	_tmp0_ = self->priv->newLabel;
+	_tmp1_ = btn;
+	_tmp2_ = gtk_button_get_label (_tmp1_);
+	if (g_strcmp0 (_tmp0_, _tmp2_) != 0) {
+		GtkButton* _tmp3_ = NULL;
+		const gchar* _tmp4_ = NULL;
+		gchar* _tmp5_ = NULL;
+		GtkButton* _tmp6_ = NULL;
+		const gchar* _tmp7_ = NULL;
+		_tmp3_ = btn;
+		_tmp4_ = gtk_button_get_label (_tmp3_);
+		_tmp5_ = g_strdup (_tmp4_);
+		_g_free0 (self->priv->btnLabel);
+		self->priv->btnLabel = _tmp5_;
+		_tmp6_ = btn;
+		_tmp7_ = self->priv->newLabel;
+		gtk_button_set_label (_tmp6_, _tmp7_);
+	} else {
+		GtkButton* _tmp8_ = NULL;
+		const gchar* _tmp9_ = NULL;
+		_tmp8_ = btn;
+		_tmp9_ = self->priv->btnLabel;
+		gtk_button_set_label (_tmp8_, _tmp9_);
+	}
 }
 
 
 static void ahm_main_window_class_init (AhmMainWindowClass * klass) {
 	ahm_main_window_parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (AhmMainWindowPrivate));
+	G_OBJECT_CLASS (klass)->finalize = ahm_main_window_finalize;
 }
 
 
 static void ahm_main_window_instance_init (AhmMainWindow * self) {
+	gchar* _tmp0_ = NULL;
+	gchar* _tmp1_ = NULL;
+	self->priv = AHM_MAIN_WINDOW_GET_PRIVATE (self);
+	_tmp0_ = g_strdup ("Button Label");
+	self->priv->btnLabel = _tmp0_;
+	_tmp1_ = g_strdup ("Button Clicked");
+	self->priv->newLabel = _tmp1_;
+}
+
+
+static void ahm_main_window_finalize (GObject* obj) {
+	AhmMainWindow * self;
+	self = G_TYPE_CHECK_INSTANCE_CAST (obj, AHM_TYPE_MAIN_WINDOW, AhmMainWindow);
+	_g_free0 (self->priv->btnLabel);
+	_g_free0 (self->priv->newLabel);
+	G_OBJECT_CLASS (ahm_main_window_parent_class)->finalize (obj);
 }
 
 
