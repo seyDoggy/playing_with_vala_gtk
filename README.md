@@ -4,10 +4,11 @@ I've been putting it off long enough. I'm finally playing around with Vala and G
 
 The sources of my learning so far have been sparked off by these videos:
 
-- https://youtu.be/vxvZGf69nko
-- https://youtu.be/RWcCsRoH_l4
-- https://youtu.be/TGyAhkcwXdU
-- https://youtu.be/-nQhk4ViSKg
+- [Create an ElementaryOS app with GTK & Vala! \(ElementaryOS Apps Pt 1\)](https://youtu.be/vxvZGf69nko)
+- [Learning about GTK apps with Vala \(ElementaryOS Apps Pt 2\)](https://youtu.be/RWcCsRoH_l4)
+- [Vala Tutorial Part 1 - Simple Basic Window App](https://youtu.be/TGyAhkcwXdU)
+- [Vala Tutorial Part 2 - Gtk Buttons](https://youtu.be/-nQhk4ViSKg)
+- [Vala Tutorial Part 3 - Brief intro to Gtk.Box Layout Container](https://youtu.be/eR8jF-BiqfA)
 
 And these resources:
 
