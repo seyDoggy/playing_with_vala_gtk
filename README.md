@@ -16,3 +16,10 @@ And these resources:
 - https://developer.gnome.org/gtk3/stable/
 - https://wiki.gnome.org/Projects/Vala/Documentation
 
+### What is does so far
+
+It creates a window with a header and a button. When you click the button, the label changes. Click it again and it changes back. Standard setter/getter stuff.
+
+![before click](screenshots/app-before-click.png)
+
+![after click](screenshots/app-after-click.png)
