@@ -109,8 +109,8 @@ int main (int argc, char ** argv) {
 /**
          * Header Constructor
          *
-         * @param title string The title to use for the header
-         * @param subtitle string The subtitle to use for the header
+         * @param title The title to use for the header
+         * @param subtitle The subtitle to use for the header
          */
 AhmHeader* ahm_header_construct (GType object_type, const gchar* title, const gchar* subtitle) {
 	AhmHeader * self = NULL;
@@ -157,8 +157,8 @@ GType ahm_header_get_type (void) {
 /**
          * MainWindow Constructor
          *
-         * @param header string The title to use for the header
-         * @param btn string The subtitle to use for the header
+         * @param header The title to use for the header
+         * @param btn The subtitle to use for the header
          */
 static void _gtk_main_quit_gtk_widget_destroy (GtkWidget* _sender, gpointer self) {
 	gtk_main_quit ();

@@ -24,8 +24,8 @@ namespace Ahm {
         /**
          * Header Constructor
          *
-         * @param title string The title to use for the header
-         * @param subtitle string The subtitle to use for the header
+         * @param title The title to use for the header
+         * @param subtitle The subtitle to use for the header
          */
         public Header(string title, string subtitle) {
             this.set_title(title);
@@ -38,8 +38,8 @@ namespace Ahm {
         /**
          * MainWindow Constructor
          *
-         * @param header string The title to use for the header
-         * @param btn string The subtitle to use for the header
+         * @param header The title to use for the header
+         * @param btn The subtitle to use for the header
          */
         public MainWindow(Gtk.HeaderBar header, Gtk.Button btn) {
             this.set_titlebar(header);
